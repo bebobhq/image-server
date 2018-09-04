@@ -14,63 +14,63 @@
 // r - Retina optimized
 
 let ruleMapping = {
-	width: 'w',
-	height: 'h',
-	crop: 'c',
-	top: 'y',
-	left: 'x',
-	gravity: 'g',
-	quality: 'q',
-	retina: 'r',
-	blur: 'b',
-	sharpen: 's',
-	greyscale: 'gs'
+  width: 'w',
+  height: 'h',
+  crop: 'c',
+  top: 'y',
+  left: 'x',
+  gravity: 'g',
+  quality: 'q',
+  retina: 'r',
+  blur: 'b',
+  sharpen: 's',
+  greyscale: 'gs'
 }
 
 let strMapping = {
-	w: 'width',
-	h: 'height',
-	c: 'crop',
-	y: 'top',
-	x: 'left',
-	g: 'gravity',
-	q: 'quality',
-	r: 'retina',
-	b: 'blur',
-	s: 'sharpen',
-	gs: 'greyscale'
+  w: 'width',
+  h: 'height',
+  c: 'crop',
+  y: 'top',
+  x: 'left',
+  g: 'gravity',
+  q: 'quality',
+  r: 'retina',
+  b: 'blur',
+  s: 'sharpen',
+  gs: 'greyscale'
 }
 
+let numConfig = [ 'w', 'h', 'y', 'x', 'q', 'b', 's' ]
+
 module.exports = str => {
-	if (typeof str !== 'string' || str.indexOf('.') !== -1)
-		return false
+  if (typeof str !== 'string' || str.indexOf('.') !== -1)
+    return false
 
-	let rules = {}
-	for (let rule of str.split('-')) {
-		let initial = rule.substring(0,1)
-		let config = rule.substring(1)
-		if (rule === 'gs') {
-			rules[strMapping[rule]] = true
-			continue
-		}
+  let rules = str.split('-').reduce((rules, rule, i) => {
+    let initial = rule.substring(0,1)
+    let config = rule.substring(1)
+    
+    if (rule === 'gs') {
+      rules[strMapping[rule]] = true
+    } else if (initial === 'r') {
+      if(config === 'true' || !config.length)
+        rules[strMapping[initial]] = true
+    } else if (strMapping[initial] != null && config.length < 5) {
+      if (numConfig.indexOf(initial) > -1) 
+        config = parseInt(config)
 
-		if (strMapping[initial] != null) {
-			
-			if (initial === 'w' || initial === 'h' || initial === 'y' || initial === 'x' || initial === 'q' || initial === 'b' || initial === 's')
-				config = parseInt(config)
-			
-			if (initial === 'r')
-				config = true
+      if (initial === 'c')
+        config = config || 'c'
 
-			if (initial === 'c')
-				config = config || 'c'
+      rules[strMapping[initial]] = config
+    }
 
-			rules[strMapping[initial]] = config
-		}
-	}
+    return rules
+  }, {})
 
-	if (Object.keys(rules).length)
-		return rules
-	
-	return false
+  if (Object.keys(rules).length)
+    return rules
+
+  return false
 }

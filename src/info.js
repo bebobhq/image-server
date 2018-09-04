@@ -2,7 +2,6 @@ const sizeOf = require('image-size')
 
 module.exports = (req, res, variables, buffer) => {
   let type = variables.mime.split('/')[0]
-  let url = false
 
   let data = {}
 
@@ -21,7 +20,6 @@ module.exports = (req, res, variables, buffer) => {
 
 	res.json({
     filename: variables.fileName,
-    url: variables.url,
     mime: variables.mime,
     type,
     size: buffer.byteLength,

@@ -1,0 +1,7 @@
+{
+  "name": "Image Server",
+  "description": "An image server, which will resize images from S3 on fly.",
+  "repository": "https://github.com/bebobhq/image-server",
+  "logo": "https://dfcoxw2hruzvo.cloudfront.net/files/0ccce581-b124-4929-9335-541c5403620d/Hkwbut3gG_favicon_96x96.png",
+  "keywords": ["node", "image", "cdn"]
+}
