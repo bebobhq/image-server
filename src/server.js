@@ -9,7 +9,6 @@ const {
 	NODE_ENV
 } = process.env
 
-const debug = require('debug')('cdn')
 const app = require('express')()
 app.use(require('helmet')())
 app.use(require('morgan')('combined'))
